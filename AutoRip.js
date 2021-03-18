@@ -375,15 +375,26 @@ function getCommandData() {
 }
 
 function processArray(array, fn, outputPath) {
-  var results = [];
-  return array.reduce((p, item) => {
-    return p.then(() => {
-      return fn(item, outputPath).then((data) => {
+  var promises = []
+  for(item in array) {
+      var results = [];
+      var promise = fn(item, outputPath).then((data)=> {
         results.push(data);
         return results;
       });
-    });
-  }, Promise.resolve());
+      promises.push(promise);
+
+  }
+  return Promise.all(promises)
+  
+  // return array.reduce((p, item) => {
+  //   return p.then(() => {
+  //     return fn(item, outputPath).then((data) => {
+  //       results.push(data);
+  //       return results;
+  //     });
+  //   });
+  // }, Promise.resolve());
 }
 
 function ripDVD(commandDataItem, outputPath) {
