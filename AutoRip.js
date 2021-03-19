@@ -375,18 +375,17 @@ function getCommandData() {
 }
 
 function processArray(array, fn, outputPath) {
-  var promises = []
-  for(item in array) {
-      var results = [];
-      var promise = fn(item, outputPath).then((data)=> {
-        results.push(data);
-        return results;
-      });
-      promises.push(promise);
-
+  var promises = [];
+  for (item of array) {
+    var results = [];
+    var promise = fn(item, outputPath).then((data) => {
+      results.push(data);
+      return results;
+    });
+    promises.push(promise);
   }
-  return Promise.all(promises)
-  
+  return Promise.all(promises);
+
   // return array.reduce((p, item) => {
   //   return p.then(() => {
   //     return fn(item, outputPath).then((data) => {
